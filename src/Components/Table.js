@@ -45,7 +45,7 @@ class Table extends React.Component {
 
     createblog=()=>{
         if(this.regexcheck()){
-            fetch('http://localhost:3005/addblog', {
+            fetch('/addblog', {
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'

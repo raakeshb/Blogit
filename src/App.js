@@ -24,7 +24,7 @@ class App extends React.Component {
   }
  
   componentDidMount(){
-  fetch("http://localhost:3005/getblogs").then(res=>res.json()).then(dbdata=>{
+  fetch("/getblogs").then(res=>res.json()).then(dbdata=>{
    
     this.setState({
     data:dbdata
