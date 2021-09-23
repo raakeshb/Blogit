@@ -45,7 +45,7 @@ class Table extends React.Component {
 
     createblog=()=>{
         if(this.regexcheck()){
-            fetch('/addblog', {
+            fetch('https://blog-it-demo-app.herokuapp.com/addblog', {
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'

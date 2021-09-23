@@ -24,7 +24,7 @@ class App extends React.Component {
   }
  
   componentDidMount(){
-  fetch("/getblogs").then(res=>res.json()).then(dbdata=>{
+  fetch("https://blog-it-demo-app.herokuapp.com/getblogs").then(res=>res.json()).then(dbdata=>{
    
     this.setState({
     data:dbdata
