@@ -22,7 +22,7 @@ class Table extends React.Component {
 
         let temp = this.context.data;
         temp.splice(position, 1);
-      this.context.updatedata(temp);
+      this.context.updateblog({'data':temp});
   
         
      
@@ -33,8 +33,8 @@ class Table extends React.Component {
 
         if(this.regexcheck()){
             let temp = this.context.data;
-            temp[position] = [this.context.blogname,this.context.description,this.context.links,this.context.author];
-            this.context.updatedata(temp);
+            temp[position] = {"blogname":this.context.blogname,"description":this.context.description,"links":this.context.links,"author":this.context.author};
+            this.context.updateblog({'data':temp});
     
            
             
@@ -45,9 +45,26 @@ class Table extends React.Component {
 
     createblog=()=>{
         if(this.regexcheck()){
-            this.context.updatedata([...this.context.data,[this.context.blogname,this.context.description,this.context.links,this.context.author]]);
-            this.context.clearfields();
-            this.props.history.push("/");
+            fetch('http://localhost:3005/addblog', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    "blogname":this.context.blogname,
+                    "description":this.context.description,
+                    "links":this.context.links,
+                    "author":this.context.author
+                })
+            }).then((res) => { 
+                return res.json() })
+            .then((json) => {
+                alert(json.message);
+                this.context.updateblog({'data':[...this.context.data,{"blogname":this.context.blogname,"description":this.context.description,"links":this.context.links,"author":this.context.author}]});
+                this.context.clearfields();
+                this.props.history.push("/");
+            });
+      
          
         
     }
@@ -55,7 +72,7 @@ class Table extends React.Component {
 
 render() {return(
 <>
-{this.context.update === true && <button className="buttons" onClick={()=>{this.context.updateit(!this.context.update);this.context.clearfields()}}>Cancel Edit</button>}
+{this.context.update === true && <button className="buttons" onClick={()=>{this.context.updateblog({"update":!this.context.update});this.context.clearfields()}}>Cancel</button>}
 {this.context.update === false ? <button className="buttons" onClick={()=>{this.createblog()}}>Add</button>:<button className="buttons" onClick={()=>{this.updateblog(this.context.edit)}}>Update</button>}
 
 {this.context.data.length >0 && <table className="tables">
@@ -65,8 +82,7 @@ render() {return(
                     <th>Links</th>
                     <th>Author</th>      
                 </tr>
-        
-                {this.context.data.map((items, index) => <tr>{items.map(i => <td>{i}</td>)}<button className="buttons" type="button" onClick={() => {this.context.loadfiledata(items);this.context.updateit(true);this.context.updateedit(index) }}>Edit!</button><button className="buttons" type="button" onClick={() => { this.deleteblog(index)}}>X</button></tr>)}
+                {this.context.data.map((item,index)=><tr>{Object.keys(item).map((key)=> (key !== '_id'&& key !== '__v') && <td>{item[key]}</td>)}<button className="buttons" type="button" onClick={() => {this.context.loadfiledata(item);this.context.updateblog({'update':true});this.context.updateblog({'edit':index}) }}>Edit!</button><button className="buttons" type="button" onClick={() => { this.deleteblog(index)}}>X</button></tr>) }
 
             </table>}
 </>

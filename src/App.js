@@ -23,62 +23,34 @@ class App extends React.Component {
     this.setState = this.setState.bind(this);
   }
  
-  //Set the state of the blogs
+  componentDidMount(){
+  fetch("http://localhost:3005/getblogs").then(res=>res.json()).then(dbdata=>{
+   
+    this.setState({
+    data:dbdata
+    })
+  })
+}
 
+ 
+// update state of the blogs
+  updateblogitems = (object) => {
+    this.setState(
+      object);
+  }
 
-    updateblog=(e)=>{
-      this.setState({
-        blogname:e,
-       
-      })
-    }   
     
-    updatedesc=(e)=>{
-      this.setState({
-        description:e
-      })
-    }
-    
-    updatelinks=(e)=>{
-      this.setState({
-        links:e
-      })
-    } 
-
-    updateauthor=(e)=>{
-      this.setState({
-        author:e
-      })
-    }
-
-    updatedata=(e)=>{
-      this.setState({
-        data:e
-      })
-    }
-    
-    update=(e)=>{
-      this.setState({
-        update:e
-      })}
-
-
-      updateedit=(e)=>{ 
-        this.setState({
-          edit:e
-
-        })
-      }
-
+// loads data into form fields when user clicks on edit button
     loadfiledata=(arr)=>{
       this.setState({
-       blogname:arr[0],
-       description:arr[1],
-       links:arr[2],
-       author:arr[3]
+       blogname:arr.blogname,
+       description:arr.description,
+       links:arr.links,
+       author:arr.author
       })
     }
 
+    // clears the form fields
     clearfields=()=>{
       this.setState({
         blogname:"",
@@ -88,12 +60,13 @@ class App extends React.Component {
     });
 
   }
-  //Set the state of the blogs
+
     render(){
-      
+      const {blogs,blogname,description,author,links,data,update,temp,edit} = this.state;
       return(
        <Router>
-         <Classblog.Provider value={{blogs: this.state.blogs,data:this.state.data,updatedata:this.updatedata, updateedit:this.updateedit,edit:this.state.edit,updatedisplay: this.updatedisplay, blogname:this.state.blogname,updateblog:this.updateblog,description:this.state.description,author:this.state.author,links:this.state.links,updateauthor:this.updateauthor,updatedesc:this.updatedesc,updatelinks:this.updatelinks,update:this.state.update,updateit:this.update,clearfields:this.clearfields,loadfiledata:this.loadfiledata}}>
+         
+         <Classblog.Provider value={{blogs,blogname,description,author,links,data,update,temp,edit,loadfiledata:this.loadfiledata,clearfields:this.clearfields,updateblog:this.updateblogitems}}>
          <Head></Head>
          <Switch>
          <Route exact path="/">
