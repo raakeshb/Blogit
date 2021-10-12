@@ -61,7 +61,7 @@ app.put('/updateblog/:id',(req,res)=>{
 //DELETE request to delete a blog.
 app.delete('/deleteblog/:id',(req,res)=>{
    
-    
+
    blogmodal.deleteOne({'_id':req.params.id},(err)=>{
        if (err)
        {
@@ -88,4 +88,8 @@ app.get("/getblogs",(req,res)=>{
             
         }
     })
+})
+
+app.get("/",(req,res)=>{
+    res.send({"message":"hello welcome to backend"})
 })
