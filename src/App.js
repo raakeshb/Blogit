@@ -26,9 +26,6 @@ class App extends React.Component {
  
   componentDidMount(){
   fetch("https://blog-it-demo-backend.herokuapp.com/getblogs").then(res=>res.json()).then(dbdata=>{
-
-  fetch("/getblogs").then(res=>res.json()).then(dbdata=>{
-
    
     this.setState({
     data:dbdata
@@ -45,6 +42,7 @@ class App extends React.Component {
     this.setState(
       object);
   }
+
 
     
 // loads data into form fields when user clicks on edit button
