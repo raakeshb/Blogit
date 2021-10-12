@@ -8,9 +8,6 @@ class Blogs extends React.Component{
   static contextType = Classblog;
 
 
-  
-  
-
     render(){return(<>
 
         <form className="forms">

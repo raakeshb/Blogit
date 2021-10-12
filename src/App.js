@@ -18,19 +18,23 @@ class App extends React.Component {
       data: [],
       update:false,
       temp:[],
-      edit:""
+      edit:"",
+      updateid:""
     }
     this.setState = this.setState.bind(this);
   }
  
   componentDidMount(){
-  fetch("https://blog-it-demo-app.herokuapp.com/getblogs").then(res=>res.json()).then(dbdata=>{
+  fetch("https://blog-it-demo-backend.herokuapp.com/getblogs").then(res=>res.json()).then(dbdata=>{
    
     this.setState({
     data:dbdata
     })
   })
 }
+
+
+  
 
  
 // update state of the blogs
@@ -62,11 +66,11 @@ class App extends React.Component {
   }
 
     render(){
-      const {blogs,blogname,description,author,links,data,update,temp,edit} = this.state;
+      const {blogs,blogname,description,author,links,data,update,temp,edit,updateid} = this.state;
       return(
        <Router>
          
-         <Classblog.Provider value={{blogs,blogname,description,author,links,data,update,temp,edit,loadfiledata:this.loadfiledata,clearfields:this.clearfields,updateblog:this.updateblogitems}}>
+         <Classblog.Provider value={{blogs,blogname,description,author,links,data,update,temp,edit,updateid,loadfiledata:this.loadfiledata,clearfields:this.clearfields,updateblog:this.updateblogitems}}>
          <Head></Head>
          <Switch>
          <Route exact path="/">
